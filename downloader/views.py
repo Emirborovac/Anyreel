@@ -8,12 +8,17 @@ from .forms import VideoDownloadForm
 from pathlib import Path
 import re
 
+# Define the download folder
 DOWNLOAD_FOLDER = str(Path.home() / "Downloads")
+
+# Define the path to the cookies file
+COOKIES_FILE_PATH = '/app/cookies/cookies.txt'
 
 def get_video_title(url):
     ydl_opts = {
         'quiet': True,
         'skip_download': True,
+        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
@@ -31,6 +36,7 @@ def download_youtube_video(url, download_folder):
         'outtmpl': os.path.join(download_folder, f'{sanitized_filename}.%(ext)s'),
         'noplaylist': True,
         'nocache': True,
+        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -55,6 +61,7 @@ def download_other_video(url, download_folder):
         'format': 'best[ext=mp4]/best',
         'outtmpl': os.path.join(download_folder, f'{sanitized_filename}.%(ext)s'),
         'noplaylist': True,
+        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -91,8 +98,7 @@ def download_instagram_reel(reel_url, download_folder):
             return None, "No video found in the post."
     except Exception as e:
         return None, str(e)
-    
-    
+
 def download_video(request):
     if request.method == 'POST':
         form = VideoDownloadForm(request.POST)
