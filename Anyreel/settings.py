@@ -31,7 +31,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-!a&kou$#2vh1rb89i-j3_7^*8y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() in ['true', '1', 't', 'yes']
 
-ALLOWED_HOSTS = ['anyreel.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['anyreel-2482892f861c.herokuapp.com', 'anyreel.herokuapp.com', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
