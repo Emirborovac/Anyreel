@@ -6,7 +6,7 @@
 
 ## Overview
 
-**Anyreel Downloader** is a simple yet powerful web application that allows users to download videos from multiple platforms, including YouTube and Instagram Reels. Built using Django, this application provides a user-friendly interface where users can input the video URL and select the platform to download their desired videos directly to their local machine.
+**Anyreel Downloader** is a simple yet powerful web application that allows users to download videos from multiple platforms, including YouTube and Instagram Reels. Built using Django, this application provides a user-friendly interface where users can input the video URL and select the platform to download their desired videos directly to their local machine. check out "https://anyreel-2482892f861c.herokuapp.com/"
 
 ## Features
 
