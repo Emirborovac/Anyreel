@@ -11,14 +11,15 @@ import re
 # Define the download folder
 DOWNLOAD_FOLDER = str(Path.home() / "Downloads")
 
-# Define the path to the cookies file
-COOKIES_FILE_PATH = '/app/cookies/cookies.txt'
+# Define the paths to the cookies files
+YOUTUBE_COOKIES_FILE = '/app/cookies/www.youtube.com_cookies.txt'
+INSTAGRAM_COOKIES_FILE = '/app/cookies/www.instagram.com_cookies.txt'
 
-def get_video_title(url):
+def get_video_title(url, cookies_file=None):
     ydl_opts = {
         'quiet': True,
         'skip_download': True,
-        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
+        'cookiefile': cookies_file,  # Use the specified cookies file
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
@@ -29,14 +30,14 @@ def sanitize_filename(filename):
     return re.sub(r'[<>:"/\\|?*]', '_', filename)
 
 def download_youtube_video(url, download_folder):
-    unique_filename = get_video_title(url)
+    unique_filename = get_video_title(url, cookies_file=YOUTUBE_COOKIES_FILE)
     sanitized_filename = sanitize_filename(unique_filename)
     ydl_opts = {
         'format': 'best[ext=mp4]/best',
         'outtmpl': os.path.join(download_folder, f'{sanitized_filename}.%(ext)s'),
         'noplaylist': True,
         'nocache': True,
-        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
+        'cookiefile': YOUTUBE_COOKIES_FILE,  # Use the YouTube cookies file
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -55,13 +56,13 @@ def download_youtube_video(url, download_folder):
         return None, f"Failed to download YouTube video: {e}"
 
 def download_other_video(url, download_folder):
-    unique_filename = get_video_title(url)
+    unique_filename = get_video_title(url, cookies_file=YOUTUBE_COOKIES_FILE)
     sanitized_filename = sanitize_filename(unique_filename)
     ydl_opts = {
         'format': 'best[ext=mp4]/best',
         'outtmpl': os.path.join(download_folder, f'{sanitized_filename}.%(ext)s'),
         'noplaylist': True,
-        'cookiefile': COOKIES_FILE_PATH,  # Use the cookies file
+        'cookiefile': YOUTUBE_COOKIES_FILE,  # Use the YouTube cookies file
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -81,6 +82,7 @@ def download_other_video(url, download_folder):
 def download_instagram_reel(reel_url, download_folder):
     try:
         L = instaloader.Instaloader()
+        L.context.load_session_from_file(username=None, filename=INSTAGRAM_COOKIES_FILE)  # Load Instagram session from cookies
         if not os.path.exists(download_folder):
             os.makedirs(download_folder)
         shortcode = reel_url.split("/")[-2]
