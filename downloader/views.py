@@ -12,8 +12,8 @@ import re
 DOWNLOAD_FOLDER = str(Path.home() / "Downloads")
 
 # Define the paths to the cookies files
-YOUTUBE_COOKIES_FILE = '/app/cookies/www.youtube.com_cookies.txt'
-INSTAGRAM_COOKIES_FILE = '/app/cookies/www.instagram.com_cookies.txt'
+YOUTUBE_COOKIES_FILE = 'www.youtube.com_cookies.txt'
+INSTAGRAM_COOKIES_FILE = 'www.instagram.com_cookies.txt'
 
 def get_video_title(url, cookies_file=None):
     ydl_opts = {
