@@ -79,46 +79,70 @@ def download_other_video(url, download_folder):
     except Exception as e:
         return None, str(e)
         
+import instaloader
+import os
+import requests
+from instaloader.exceptions import LoginRequiredException, ConnectionException
+
 def download_instagram_reel(reel_url, download_folder):
     try:
         L = instaloader.Instaloader()
 
-        # Load Instagram session from the session file
-        session_file = 'session.session'
+        # Log message to check if we're inside the try block
+        print("Initializing Instaloader and checking session file...")
+
+        # Define the path to the session file
+        session_file = r"C:\Users\Ymir\Desktop\Github\Anyreel\session.session"
+        
+        # Check if the session file exists and load it using the correct method
         if os.path.exists(session_file):
-            L.context.load_session_from_file('amircharitymill', session_file)
+            L.load_session_from_file('amircharitymill', session_file)
+            print(f"Session loaded successfully from {session_file}.")
         else:
+            print(f"Session file '{session_file}' not found.")
             return None, f"Session file '{session_file}' not found."
 
+        # Ensure the download folder exists
         if not os.path.exists(download_folder):
             os.makedirs(download_folder)
-        
+            print(f"Download folder created at {download_folder}.")
+
         # Extract shortcode from the reel URL
+        print("Extracting shortcode from the reel URL...")
         shortcode = reel_url.split("/")[-2]
         
         # Get the post object using the shortcode
+        print(f"Fetching the post using shortcode: {shortcode}")
         post = instaloader.Post.from_shortcode(L.context, shortcode)
         
         # Get the video URL
         video_url = post.video_url
-        
+        print(f"Video URL found: {video_url}")
+
         # Generate a unique filename for the video
         unique_filename = sanitize_filename(post.title if post.title else shortcode)
+        video_path = os.path.join(download_folder, f"{unique_filename}.mp4")
         
         if video_url:
+            print(f"Downloading video to {video_path}...")
             response = requests.get(video_url, stream=True)
-            video_path = os.path.join(download_folder, f"{unique_filename}.mp4")
             with open(video_path, 'wb') as video_file:
                 for chunk in response.iter_content(chunk_size=8192):
                     video_file.write(chunk)
+            print("Download completed successfully.")
             return video_path, None
         else:
+            print("No video found in the post.")
             return None, "No video found in the post."
-    except instaloader.exceptions.LoginRequiredException as login_err:
+
+    except LoginRequiredException as login_err:
+        print(f"Login required: {str(login_err)}")
         return None, f"Login required: {str(login_err)}"
-    except instaloader.exceptions.ConnectionException as conn_err:
+    except ConnectionException as conn_err:
+        print(f"Connection error: {str(conn_err)}")
         return None, f"Connection error: {str(conn_err)}"
     except Exception as e:
+        print(f"Unexpected error: {str(e)}")
         return None, f"Unexpected error: {str(e)}"
 
 
