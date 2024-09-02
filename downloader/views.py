@@ -92,7 +92,7 @@ def download_instagram_reel(reel_url, download_folder):
         print("Initializing Instaloader and checking session file...")
 
         # Define the path to the session file
-        session_file = r"C:\Users\Ymir\Desktop\Github\Anyreel\session.session"
+        session_file = r"session.session"
         
         # Check if the session file exists and load it using the correct method
         if os.path.exists(session_file):
