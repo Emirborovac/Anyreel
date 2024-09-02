@@ -82,13 +82,25 @@ def download_other_video(url, download_folder):
 def download_instagram_reel(reel_url, download_folder):
     try:
         L = instaloader.Instaloader()
-        L.context.load_session_from_file(username=None, filename=INSTAGRAM_COOKIES_FILE)  # Load Instagram session from cookies
+
+        # Load Instagram session from the session file
+        L.context.load_session_from_file('amircharitymill', 'session.session')  # Replace 'amircharitymill' with your Instagram username
+
         if not os.path.exists(download_folder):
             os.makedirs(download_folder)
+        
+        # Extract shortcode from the reel URL
         shortcode = reel_url.split("/")[-2]
+        
+        # Get the post object using the shortcode
         post = instaloader.Post.from_shortcode(L.context, shortcode)
+        
+        # Get the video URL
         video_url = post.video_url
+        
+        # Generate a unique filename for the video
         unique_filename = sanitize_filename(post.title if post.title else shortcode)
+        
         if video_url:
             response = requests.get(video_url, stream=True)
             video_path = os.path.join(download_folder, f"{unique_filename}.mp4")
@@ -100,7 +112,7 @@ def download_instagram_reel(reel_url, download_folder):
             return None, "No video found in the post."
     except Exception as e:
         return None, str(e)
-
+        
 def download_video(request):
     if request.method == 'POST':
         form = VideoDownloadForm(request.POST)
