@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body, html {
+    font-family: 'Orbitron', sans-serif;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    fill-opacity: calc(10);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* 30% opacity */
+    z-index: 0;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.content {
+    width: 100%;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 25px;
+    color: #00d4ff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #8800ff, 0 0 10px #8800ff, 0 0 15px #8800ff, 0 0 20px #8800ff;
+    }
+    to {
+        text-shadow: 0 0 20px #00d4ff, 0 0 30px #00d4ff, 0 0 40px #00d4ff, 0 0 50px #00d4ff;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #b0c4de;
+}
+
+.input-field,
+.select-menu {
+    padding: 15px;
+    border: 1px solid #555555;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #e0e0e0;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+/* Specific styling for input field */
+.input-field {
+    width: 95%;
+}
+
+/* Specific styling for select menu */
+.select-menu {
+    width: 100%;
+}
+
+.input-field:focus,
+.select-menu:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 10px #00d4ff;
+    outline: none;
+}
+
+button {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00d4ff;
+    color: #0f2027;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #007bbf;
+    transform: scale(1.05);
+}
+
+p.error {
+    color: #ff4d4d;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    width: 100%;
+    background-color: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 20px;
+    text-align: center; /* Center the download finished text */
+}
+
+.progress-bar {
+    width: 0;
+    height: 20px;
+    background: linear-gradient(90deg, rgba(0, 123, 255, 1) 0%, rgba(0, 255, 136, 1) 100%);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5), 0 0 20px rgba(0, 123, 255, 0.3), 0 0 30px rgba(0, 123, 255, 0.2);
+    transition: width 0.4s ease;
+}
+
+.progress-bar.glow {
+    animation: progress-glow 1.5s infinite alternate;
+}
+
+@keyframes progress-glow {
+    from {
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5), 0 0 15px rgba(0, 123, 255, 0.3), 0 0 25px rgba(0, 123, 255, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(0, 123, 255, 0.7), 0 0 30px rgba(0, 123, 255, 0.5), 0 0 40px rgba(0, 123, 255, 0.3);
+    }
+}
+
+
+#downloadStatus {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 25px;
+    color: #00d4ff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: glow 1.5s ease-in-out infinite alternate;
+
+
+
+}
