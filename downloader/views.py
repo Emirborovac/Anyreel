@@ -78,13 +78,17 @@ def download_other_video(url, download_folder):
                 return None, "Failed to find the downloaded video file."
     except Exception as e:
         return None, str(e)
-
+        
 def download_instagram_reel(reel_url, download_folder):
     try:
         L = instaloader.Instaloader()
 
         # Load Instagram session from the session file
-        L.context.load_session_from_file('amircharitymill', 'session.session')  # Replace 'amircharitymill' with your Instagram username
+        session_file = 'session.session'
+        if os.path.exists(session_file):
+            L.context.load_session_from_file('amircharitymill', session_file)
+        else:
+            return None, f"Session file '{session_file}' not found."
 
         if not os.path.exists(download_folder):
             os.makedirs(download_folder)
@@ -110,9 +114,14 @@ def download_instagram_reel(reel_url, download_folder):
             return video_path, None
         else:
             return None, "No video found in the post."
+    except instaloader.exceptions.LoginRequiredException as login_err:
+        return None, f"Login required: {str(login_err)}"
+    except instaloader.exceptions.ConnectionException as conn_err:
+        return None, f"Connection error: {str(conn_err)}"
     except Exception as e:
-        return None, str(e)
-        
+        return None, f"Unexpected error: {str(e)}"
+
+
 def download_video(request):
     if request.method == 'POST':
         form = VideoDownloadForm(request.POST)
